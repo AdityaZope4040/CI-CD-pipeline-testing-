@@ -16,10 +16,10 @@ jobs:
 
     - name: Stop existing container (if running)
       run: |
-        try { docker stop node-app-container } catch { Write-Output "No container to stop" }
-        try { docker rm node-app-container } catch { Write-Output "No container to remove" }
+        docker stop node-app-container 2>$null
+        docker rm node-app-container 2>$null
       shell: powershell
-      # Fixed: Removed the period (.) at the end of lines and added explicit shell declaration
+      continue-on-error: true
 
     - name: Build Docker image
       run: docker build -t node-app .
