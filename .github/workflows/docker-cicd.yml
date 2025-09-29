@@ -16,8 +16,8 @@ jobs:
 
     - name: Stop existing container (if running)
       run: |
-             try { docker stop node-app-container } catch { Write-Output "No container to stop" }
-             try { docker rm node-app-container } catch { Write-Output "No container to remove" }
+             try { docker stop node-app-container } catch { Write-Output "No container to stop" }.
+             try { docker rm node-app-container } catch { Write-Output "No container to remove" }.
            # Replaced Bash-style || exit 0 with PowerShell try-catch to handle errors gracefully
 
     - name: Build Docker image
