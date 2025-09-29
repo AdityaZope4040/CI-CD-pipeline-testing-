@@ -2,27 +2,27 @@ name: CI/CD - Build and Run Docker
 
 on:
   push:
-    branches: [ master ]  # Replace 'main' with your branch name if different (e.g., 'master')
+    branches: [ master ]
   pull_request:
-    branches: [ master ]  # Replace 'main' with your branch name if different
+    branches: [ master ]
 
 jobs:
   build-and-run:
-    runs-on: self-hosted  # Assumes a self-hosted runner on your Windows machine; no change needed unless using a different runner
+    runs-on: self-hosted
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4  # No change needed; this is the latest checkout action
+      uses: actions/checkout@v4
 
     - name: Stop existing container (if running)
       run: |
-             try { docker stop node-app-container } catch { Write-Output "No container to stop" }.
-             try { docker rm node-app-container } catch { Write-Output "No container to remove" }.
-           # Replaced Bash-style || exit 0 with PowerShell try-catch to handle errors gracefully
+        try { docker stop node-app-container } catch { Write-Output "No container to stop" }
+        try { docker rm node-app-container } catch { Write-Output "No container to remove" }
+      shell: powershell
+      # Fixed: Removed the period (.) at the end of lines and added explicit shell declaration
 
     - name: Build Docker image
       run: docker build -t node-app .
-      # Replace 'node-app' with your desired image name if different
 
     - name: Run Docker container
       run: |
@@ -30,7 +30,7 @@ jobs:
 
     - name: Verify app is running
       run: |
-        Start-Sleep -Seconds 5  # Adjust sleep duration if your app needs more/less startup time
+        Start-Sleep -Seconds 5
         Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing | Out-Null
         Write-Output "App is running at http://localhost:3000"
-        # Replace 'http://localhost:3000' with your app's URL if using a different port
+      shell: powershell
