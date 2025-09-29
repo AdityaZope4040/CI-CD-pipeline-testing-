@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 2,
+  "agentName": "github-runner",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus26.actions.githubusercontent.com/ugQDkjQnOXrF7E4Hopf2TEyVqMubFts7RA2XOhis2FtB2Ob1iA/",
+  "gitHubUrl": "https://github.com/AdityaZope4040/CI-CD-pipeline-testing-",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}

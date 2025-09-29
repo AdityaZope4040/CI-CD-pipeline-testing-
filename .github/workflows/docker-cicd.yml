@@ -1,0 +1,35 @@
+name: CI/CD - Build and Run Docker
+
+on:
+  push:
+    branches: [ master ]  # Replace 'main' with your branch name if different (e.g., 'master')
+  pull_request:
+    branches: [ master ]  # Replace 'main' with your branch name if different
+
+jobs:
+  build-and-run:
+    runs-on: self-hosted  # Assumes a self-hosted runner on your Windows machine; no change needed unless using a different runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4  # No change needed; this is the latest checkout action
+
+    - name: Stop existing container (if running)
+      run: |
+        docker stop node-app-container || exit 0
+        docker rm node-app-container || exit 0
+
+    - name: Build Docker image
+      run: docker build -t node-app .
+      # Replace 'node-app' with your desired image name if different
+
+    - name: Run Docker container
+      run: |
+        docker run -d --name node-app-container -p 3000:3000 node-app
+
+    - name: Verify app is running
+      run: |
+        Start-Sleep -Seconds 5  # Adjust sleep duration if your app needs more/less startup time
+        Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing | Out-Null
+        Write-Output "App is running at http://localhost:3000"
+        # Replace 'http://localhost:3000' with your app's URL if using a different port
